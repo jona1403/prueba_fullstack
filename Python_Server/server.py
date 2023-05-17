@@ -9,6 +9,15 @@ app = Flask(__name__)
 #constante del enpoint donde obtendremos los objetos
 ENDPOINT = 'https://api.chucknorris.io/jokes/random'
 
+#Funcion auxiliar para la verificacion de la existencia del objeto por el id
+def exists(objects, obj):
+
+    #Iteracion del arreglo
+    for object in objects:
+        #Condicion de existencia del objeto por el ID
+        if object["id"] == obj["id"]:
+            return True
+    return False
 
 #Endpoint root de prueba para verificar que la api corra correctamente
 @app.route('/', methods = {'GET'})
@@ -33,7 +42,7 @@ def getObjects():
         json_object = object_received.json()
         
         #Condición para que sea un objeto no existente dentro del arreglo 
-        if json_object not in objects:
+        if not exists(objects ,json_object):
             #Se agrega un objeto mas al arreglo
             objects.append(json_object)
 
